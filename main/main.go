@@ -11,41 +11,26 @@ import (
 
 func main() {
 	args := os.Args //获取用户输入的所有参数
-	fmt.Println("len(args):", len(args))
+	//fmt.Println("len(args):", len(args))
 	// 如果 a 包含 b
 	for i := range args {
 		if (len(args) == 1) || (len(args) > 1 && args[i] == "-h") || (len(args) > 1 && args[i] == "--help") {
 			fmt.Println("Usage:   -i <ip> \n" +
-				"\t -h --help \n" +
-				"\t -t --thread \n")
+				"\t --ip <ip> \n" +
+				"\t -h --help \n")
 			break
 		}
 		if (len(args) > 1 && args[i] == "-i") || (len(args) > 1 && args[i] == "--ip") {
-			fmt.Println("Usage: gohive -i  <ip> \n" +
-				"-h --help \n" +
-				"-t --thread \n")
 			//args的类型是[]string
-			ip := args[2]
+			ip := args[i+1]
 			fmt.Println("扫描的 ip:", ip)
-			线程池端口扫描(ip, 7000)
+			线程池全端口扫描(ip, 70000)
 			return
 		}
-		if (len(args) > 1 && args[i] == "-i") || (len(args) > 1 && args[i] == "--ip") {
-			fmt.Println("Usage: gohive -i  <ip> \n" +
-				"-h --help \n" +
-				"-t --thread \n")
-			//args的类型是[]string
-			ip := args[2]
-			fmt.Println("扫描的 ip:", ip)
-			线程池端口扫描(ip, 7000)
-			return
-		}
-
 	}
-
 }
 
-// ------------------------------------------
+// ___________________________________________________________________________________________
 // 使用线程池 完成端口扫描
 var wg sync.WaitGroup
 
@@ -68,7 +53,7 @@ func worker() {
 	}
 }
 
-func 线程池端口扫描(ip string, thread int) {
+func 线程池全端口扫描(ip string, thread int) {
 	var begin = time.Now()
 	var pool_size = 70000
 	if thread != 0 {
@@ -89,8 +74,5 @@ func 线程池端口扫描(ip string, thread int) {
 	wg.Wait()
 	var elapseTime = time.Now().Sub(begin)
 	fmt.Println("耗时", elapseTime)
-
-}
-func 参数处理() {
 
 }
